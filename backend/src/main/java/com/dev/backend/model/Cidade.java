@@ -5,31 +5,33 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import lombok.Data;
 
 import java.util.Date;
 import jakarta.persistence.TemporalType;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "tb_estado")
+@Table(name = "tb_cidade")
 @Data
-public class Estado {
+public class Cidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     private String name;
-    private String Sigla;
 
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
+    private Estado estado;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
     

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.dev.backend.model.Estado;
-import com.dev.backend.repositories.EstadoRepository;
+import com.dev.backend.model.Cidade;
+import com.dev.backend.repositories.CidadeRepository;
 import com.dev.backend.services.exceptions.DatabaseException;
 import com.dev.backend.services.exceptions.ResourceNotFoundException;
 
@@ -18,31 +18,31 @@ import jakarta.persistence.EntityExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @Service
-public class EstadoService {
+public class CidadeService {
     
     @Autowired
-    private EstadoRepository repo;
+    private CidadeRepository repo;
 
 
     
-    public List<Estado> findAll() {
+    public List<Cidade> findAll() {
         return repo.findAll();
     }
     
-    public Estado findById(Long id) {
-        Optional<Estado> obj = repo.findById(id);
+    public Cidade findById(Long id) {
+        Optional<Cidade> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Estado insert(Estado obj) {
+    public Cidade insert(Cidade obj) {
         obj.setDataCriacao(new Date());
         return repo.saveAndFlush(obj);
     }
 
-    public Estado update(Long id, Estado obj) {
+    public Cidade update(Long id, Cidade obj) {
         try {
             obj.setDataAtualizacao(new Date());
-            Estado entity = repo.getReferenceById(id);
+            Cidade entity = repo.getReferenceById(id);
             updateData(entity, obj);
             return repo.saveAndFlush(entity);
         } catch (EntityExistsException e){
@@ -50,9 +50,8 @@ public class EstadoService {
         }
     }
 
-    private void updateData(Estado entity, Estado obj) {
+    private void updateData(Cidade entity, Cidade obj) {
         entity.setName(obj.getName());
-        entity.setSigla(obj.getSigla());
         entity.setDataAtualizacao(new Date());
     }
 
