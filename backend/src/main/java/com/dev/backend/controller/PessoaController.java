@@ -15,47 +15,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.dev.backend.model.Estado;
-import com.dev.backend.services.EstadoService;
+import com.dev.backend.model.Pessoa;
+import com.dev.backend.services.PessoaService;
 
 import jakarta.websocket.server.PathParam;
 
 @RestController
-@RequestMapping(value = "/api/estado")
-public class EstadoController {
+@RequestMapping("/api/pessoa")
+public class PessoaController {
     
     @Autowired
-    private EstadoService estadoService;
+    private PessoaService PessoaService;
 
-    @GetMapping
-    public ResponseEntity<List<Estado>> findAll(){
-        List<Estado> estados = estadoService.findAll();
-        return ResponseEntity.ok().body(estados);
+    @GetMapping()
+    public ResponseEntity<List<Pessoa>> findAll(){
+        List<Pessoa> pessoas = PessoaService.findAll();
+        return ResponseEntity.ok().body(pessoas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Estado> findById(@PathParam("id") Long id){
-        Estado estado = estadoService.findById(id);
-        return ResponseEntity.ok().body(estado);
+    public ResponseEntity<Pessoa> findById(@PathParam("id") Long id){
+        Pessoa pessoa = PessoaService.findById(id);
+        return ResponseEntity.ok().body(pessoa);
     }
 
     @PostMapping()
-    public ResponseEntity<Estado> insert(@RequestBody Estado estado){
-        estado = estadoService.insert(estado);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(estado.getId()).toUri();
-        return ResponseEntity.created(uri).body(estado);
+    public ResponseEntity<Pessoa> insert(@RequestBody Pessoa pessoa){
+        pessoa = PessoaService.insert(pessoa);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pessoa.getId()).toUri();
+        return ResponseEntity.created(uri).body(pessoa);
     }
     
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Estado> update(@PathVariable("id") Long id, @RequestBody Estado estado){
-        estado = estadoService.update(id, estado);
-        return ResponseEntity.ok().body(estado);
+    public ResponseEntity<Pessoa> update(@PathVariable("id") Long id, @RequestBody Pessoa pessoa){
+        pessoa = PessoaService.update(id, pessoa);
+        return ResponseEntity.ok().body(pessoa);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-        estadoService.delete(id);
+        PessoaService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

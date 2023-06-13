@@ -1,6 +1,6 @@
 package com.dev.backend.model;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,35 +10,40 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "tb_cidade")
+@Table(name = "tb_pessoa")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
-public class Cidade {
+public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @NonNull
     private String name;
 
-    @NonNull
+    @Column(unique = true)
+    private String cpf;
+
+    @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
+    private String telefone;
+    private String endereco;
+    private String cep;
+    private String senha;
+    
     @ManyToOne
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
+    @JoinColumn(name = "cidade_id")
+    private Cidade cidade;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
     

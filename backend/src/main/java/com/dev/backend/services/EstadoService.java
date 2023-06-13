@@ -41,7 +41,6 @@ public class EstadoService {
 
     public Estado update(Long id, Estado obj) {
         try {
-            obj.setDataAtualizacao(new Date());
             Estado entity = repo.getReferenceById(id);
             updateData(entity, obj);
             return repo.saveAndFlush(entity);

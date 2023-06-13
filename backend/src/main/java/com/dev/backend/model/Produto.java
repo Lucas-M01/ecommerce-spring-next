@@ -5,40 +5,35 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import jakarta.persistence.TemporalType;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_cidade")
+@Table(name = "tb_produto")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
-public class Cidade {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @NonNull
     private String name;
+    private String description;
+    private Double price;
+    private String imgUrl;
 
-    @NonNull
-    @ManyToOne
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
+    @ManyToMany
+    private Set<Categoria> categorias = new HashSet<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
-    
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
     

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.dev.backend.model.Cidade;
-import com.dev.backend.repositories.CidadeRepository;
+import com.dev.backend.model.Categoria;
+import com.dev.backend.repositories.CategoriaRepository;
 import com.dev.backend.services.exceptions.DatabaseException;
 import com.dev.backend.services.exceptions.ResourceNotFoundException;
 
@@ -18,30 +18,29 @@ import jakarta.persistence.EntityExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @Service
-public class CidadeService {
+public class CategoriaService {
     
     @Autowired
-    private CidadeRepository repo;
-
-
+    private CategoriaRepository repo;
     
-    public List<Cidade> findAll() {
+    public List<Categoria> findAll() {
         return repo.findAll();
     }
     
-    public Cidade findById(Long id) {
-        Optional<Cidade> obj = repo.findById(id);
+    public Categoria findById(Long id) {
+        Optional<Categoria> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Cidade insert(Cidade obj) {
+    public Categoria insert(Categoria obj) {
         obj.setDataCriacao(new Date());
         return repo.saveAndFlush(obj);
+
     }
 
-    public Cidade update(Long id, Cidade obj) {
+    public Categoria update(Long id, Categoria obj) {
         try {
-            Cidade entity = repo.getReferenceById(id);
+            Categoria entity = repo.getReferenceById(id);
             updateData(entity, obj);
             return repo.saveAndFlush(entity);
         } catch (EntityExistsException e){
@@ -49,9 +48,10 @@ public class CidadeService {
         }
     }
 
-    private void updateData(Cidade entity, Cidade obj) {
+    private void updateData(Categoria entity, Categoria obj) {
         entity.setName(obj.getName());
         entity.setDataAtualizacao(new Date());
+        
     }
 
     public void delete(Long id) {
@@ -63,6 +63,4 @@ public class CidadeService {
             throw new DatabaseException(e.getMessage());
         }
     }
-    
-
 }

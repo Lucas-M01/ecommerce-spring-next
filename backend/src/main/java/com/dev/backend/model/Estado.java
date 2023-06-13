@@ -9,29 +9,43 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
-import jakarta.persistence.TemporalType;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.TemporalType;
+
 @Entity
 @Table(name = "tb_estado")
-@Data
+@Data()
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NonNull
     private String name;
-    private String Sigla;
 
+    @NonNull
+    private String sigla;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "estado")
+    private Set<Cidade> cidades = new HashSet<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
     
-
 }

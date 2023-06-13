@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.dev.backend.model.Cidade;
-import com.dev.backend.repositories.CidadeRepository;
+import com.dev.backend.model.Produto;
+import com.dev.backend.repositories.ProdutoRepository;
 import com.dev.backend.services.exceptions.DatabaseException;
 import com.dev.backend.services.exceptions.ResourceNotFoundException;
 
@@ -18,30 +18,29 @@ import jakarta.persistence.EntityExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @Service
-public class CidadeService {
+public class ProdutoService {
     
     @Autowired
-    private CidadeRepository repo;
-
-
+    private ProdutoRepository repo;
     
-    public List<Cidade> findAll() {
+    public List<Produto> findAll() {
         return repo.findAll();
     }
     
-    public Cidade findById(Long id) {
-        Optional<Cidade> obj = repo.findById(id);
+    public Produto findById(Long id) {
+        Optional<Produto> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Cidade insert(Cidade obj) {
+    public Produto insert(Produto obj) {
         obj.setDataCriacao(new Date());
         return repo.saveAndFlush(obj);
+
     }
 
-    public Cidade update(Long id, Cidade obj) {
+    public Produto update(Long id, Produto obj) {
         try {
-            Cidade entity = repo.getReferenceById(id);
+            Produto entity = repo.getReferenceById(id);
             updateData(entity, obj);
             return repo.saveAndFlush(entity);
         } catch (EntityExistsException e){
@@ -49,8 +48,12 @@ public class CidadeService {
         }
     }
 
-    private void updateData(Cidade entity, Cidade obj) {
+    private void updateData(Produto entity, Produto obj) {
         entity.setName(obj.getName());
+        entity.setPrice(obj.getPrice());
+        entity.setDescription(obj.getDescription());
+        entity.setImgUrl(obj.getImgUrl());
+        entity.setCategorias(obj.getCategorias());
         entity.setDataAtualizacao(new Date());
     }
 
@@ -63,6 +66,4 @@ public class CidadeService {
             throw new DatabaseException(e.getMessage());
         }
     }
-    
-
 }
